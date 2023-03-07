@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Poppins';
+  src: url(./fonts/Poppins/Poppins-Regular.ttf);
+  font-weight: bold;
+  font-style: bold;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  font-family: 'Poppins';
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: rgb(53, 8, 102);
+}
+body::-webkit-scrollbar{
+  display: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+.bg-white-transparent{
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.bg-list-pool:hover{
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.heithPopup, .heithPopupShow{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  max-height: 500px;
+  min-height: 500px;
+  width: 560px;
+  max-width: 90%;
+  transition: all .4s ease;
+}
+.heithPopupShow{
+  transform: translate(-50%, -50%) scale(1);
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 30px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(53, 8, 102);
+  height: 5px;
+  border-radius: 30px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(53, 8, 102);
+}
+
+.heighSwapComponenet{
+  height: 80vh;
+  min-height: 600;
+  max-height: 600px;
+}
