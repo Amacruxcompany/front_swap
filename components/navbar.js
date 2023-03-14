@@ -7,8 +7,8 @@ import ConnectWalletButton from "@/shared/conectWalledButton"
 
 export default function NavBar(){
     return(
-        <nav className="bg-fondThree flex justify-center w-full ">
-            <div className="p-3 flex justify-around	items-center container mx-auto md:grid grid-cols-9 gap-x-4">
+        <nav className="bg-fondThree flex justify-center w-full z-50">
+            <div className="bg-fondThree z-50 p-3 flex justify-around	items-center container mx-auto md:grid grid-cols-9 gap-x-4">
             <Image src={logo} alt="Logo" width={30} height={30} className='md:hidden'/>
             <Image src={logo2} alt="Logo" width={300} height={300} className='hidden md:block col-span-2 col-start-2'/>
 

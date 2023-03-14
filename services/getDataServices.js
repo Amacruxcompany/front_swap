@@ -14,9 +14,13 @@ export async function getAllListPool() {
   }
 }
 
-
+//*servicio que trae toda la lista de currencys
 export async function getAllListImageCurrency(){
-    const res = await fetch(`https://www.binance.com/bapi/asset/v1/public/asset/asset/get-asset-logo`)
+    try {
+      const res = await fetch(`https://www.binance.com/bapi/asset/v1/public/asset/asset/get-asset-logo`)
 
-    return res
+      return res
+    } catch (error) {
+      return undefined
+    }
 }
