@@ -8,6 +8,7 @@ import InputCalculated from "./InputCalculated"
 import ListOfPool from "./listOfpool"
 import Swal from "sweetalert2"
 import AmountComponet from "./amountComponenet"
+import PayComponent from "./payComponenet"
 
 
 export default  function  SwapBox({selected, handlreSearching, pool, selectPool, searching , handlreShow}){
@@ -34,6 +35,10 @@ export default  function  SwapBox({selected, handlreSearching, pool, selectPool,
 
     //? estado de la prefactura
     const [preventViewAmoun, setPrevenViewAmount] = useState(false)
+
+
+    //? estado de la factura para pagar
+    const [pay, setPay] = useState(false)
 
 
     const [priceBase, setPriceBase] = useState('')
@@ -77,6 +82,8 @@ export default  function  SwapBox({selected, handlreSearching, pool, selectPool,
         }
     }, [amount, firstCurrency, secondCurrency, selected, waitData, beforeAmount])
 
+
+
     const selectNewPoolCalculated = async (value) =>{
         setFirstCurrency(0)
         setSecondCurrency(1)
@@ -85,7 +92,7 @@ export default  function  SwapBox({selected, handlreSearching, pool, selectPool,
     }
 
     useEffect(() =>{
-        if(!newPool){
+        if(!newPool && amount != 0){
             setPrevenViewAmount(false)
             getSwapprice(selected[firstCurrency], selected[secondCurrency], amount)
             .then((res) => {
@@ -137,18 +144,20 @@ export default  function  SwapBox({selected, handlreSearching, pool, selectPool,
         <div className="flex justify-center w-10/12 mx-auto md:w-full  items-center flex-col md:col-start-7 md:col-end-9 mt-5"> 
             <div className="pb-3 pt-8 flex flex-col justify-items-center items-center h-max bg-white-transparent w-full rounded-lg">
                 {selected[0] ? <InputCurrency currencyValue={ priceQuote}   handlerCalculate={setAmount} handlreSearching={handlreSearching} styleData={opacity} poolOption={selected[firstCurrency]}/> : null}
-                <div className="h-14 flex justify-center items-center md:cursor-pointer hover:scale-150	 transition duration-700	 ease-in-out pb-3 w-max" onClick={changeControl}>
+                <div className="h-8 flex justify-center items-center md:cursor-pointer hover:scale-150	 transition duration-700	 ease-in-out pb-3 w-max" onClick={changeControl}>
                     <FontAwesomeIcon icon={faExchangeAlt} className='rotate-90 h-6'/>
                 </div>
                 {selected[0] ? <InputCalculated currencyValue={priceBase} amountRecibe={calculatedData} handlreSearching={handlreSearching} styleData={opacity}  poolOption={selected[secondCurrency]}/> : null}
             
                 <AmountComponet    classEevent={preventViewAmoun} amount={calculatedData}/>
 
-                <button className="mt-3 bg-intColorTwo text-white px-3 py-1 rounded-md	">
+                <button className={`mt-3 bg-intColorTwo text-white px-3 py-1 rounded-md ${calculatedData.price ? '' : 'hidden'}`} onClick={() => setPay(!pay)}>
                     COMPLETAR
                 </button>
             </div>
 
+            
+            <PayComponent data={calculatedData} showPay={pay} handler={setPay}/>
             <ListOfPool poolData={pool} selectPool={selectPool} handlreShow={selectNewPoolCalculated} searching={searching}/>
         </div>
     )

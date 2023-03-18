@@ -1,3 +1,5 @@
+import axios from "axios";
+
 //* funcion que maneja la llamada inicial de toda la lista de poll de intercambio
 export async function getAllListPool() {
   try {
@@ -24,3 +26,27 @@ export async function getAllListImageCurrency(){
       return undefined
     }
 }
+
+//* servicio para el liquidez de un pool
+
+export async function getLiquPool(poolId){
+  try {
+    const config = {
+      headers:{
+        'api-key': process.env.AMAX_API_KEY
+      }
+    };
+
+    const res = await fetch(`${process.env.AMAX_PORT}/v1/use/external/liquidity_pool?idPool=${poolId}`,  config)
+
+    const data = await res.json()
+
+    return data
+  } catch (error) {
+    return undefined
+  }
+}
+
+
+
+

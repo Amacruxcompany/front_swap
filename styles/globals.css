@@ -50,13 +50,22 @@ a {
   max-height: 500px;
   min-height: 500px;
   width: 560px;
-  max-width: 90%;
   transition: all .4s ease;
 }
 .heithPopupShow{
   transform: translate(-50%, -50%) scale(1);
 }
-
+@media (max-width:600px) {
+  .heithPopupShow{
+    width: 350px;
+  }
+}
+@media (max-width:380px) {
+  .heithPopupShow{
+    width: 350px;
+    transform: translate(-50%, -50%) scale(.7);
+  }
+}
 ::-webkit-scrollbar {
   width: 15px;
 }
@@ -87,4 +96,51 @@ a {
 
 .containerPersonal{
   margin-top: 90px;
+}
+.chartStyles{
+  transform: translateX(100px);
+}
+
+@media (max-width: 1279px) {
+  .chartStyles{
+    transform:  translateX(20px);
+    bottom: 5%;
+  }
+  .swapResponsive{
+    transform: translateX(30px);
+  }
+}
+.exitChart{
+  display: none;
+}
+@media (max-width: 1120px) {
+  .exitChart{
+    display: block;
+  }
+  .chartStyles{
+    
+    position: fixed!important;
+    transform: scale(.9) translateX(0);
+  }
+  .swapResponsive{
+    transform: translateX(0);
+  }
+}
+@media (max-width: 660px) {
+  .chartStylesData{
+    width: 100%!important;
+    height: 350px!important;
+  }
+}
+
+@media (max-width: 550px) {
+  .chartStyles{
+    transform: scale(1);
+    bottom: 0;
+  }
+  .chartStylesData{
+    width: 60%;
+    height:250px!important;
+    border-radius:20px 20px 0 0!important;
+  }
 }

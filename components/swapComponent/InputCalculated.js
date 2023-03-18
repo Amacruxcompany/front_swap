@@ -27,7 +27,7 @@ export default  function InputCalculated({poolOption, styleData , handlreSearchi
                 </span>
                 <span className={`text-xs`}>{currencyValue}</span>
             </button>
-           <input type='text' readOnly value={inputValue} onKeyDown={(e) => e.preventDefault()} placeholder={`0.000 ${poolOption}`} className="w-full text-end border-4 border-violet-400  h-16 rounded-lg pr-5"/>
+           <input type='text' readOnly value={inputValue} onKeyDown={(e) => e.preventDefault()} placeholder={`0.000 ${poolOption}`} className="w-full text-end border-4 border-violet-400  h-12 rounded-lg pr-5"/>
         </div>
     )
 }

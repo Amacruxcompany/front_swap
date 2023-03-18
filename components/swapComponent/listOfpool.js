@@ -22,7 +22,7 @@ export default function ListOfPool({poolData, handlreShow, selectPool, searching
     }, [searching, selectPool])
 
     return(
-        <div className={`${selectPool ? 'heithPopupShow' : 'heithPopup'}  flex justify-start items-center flex-col fixed bg-fondOne mt-4 py-4 border-2 rounded-2xl border-white`}> 
+        <div className={`${selectPool ? 'heithPopupShow' : 'heithPopup'} z-50 flex justify-start items-center flex-col fixed bg-fondOne mt-4 py-4 border-2 rounded-2xl border-white`}> 
             <input type='text' value={search} className="w-8/12 border-none rounded-2xl h-2/6 text-center" onChange={(e) => setSearch(e.target.value)}/>
             <ul className="list-none h-4/6 	overflow-y-scroll scroll-smooth w-11/12 mt-5 snap-y snap-mandatory">
                 {poolData.map((element, ind) => {
