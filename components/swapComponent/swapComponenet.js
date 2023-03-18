@@ -1,11 +1,13 @@
 'use client'
-import ListOfPool from './listOfpool.js'
 import SwapBox from './swapBox.js'
 import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addImage } from '@/store/actions.js'
-import Image from 'next/image.js'
 import PoolImage from './poolImage.js'
+import ChartComponent from './chartComponent.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChartLine } from '@fortawesome/free-solid-svg-icons'
+
 export default function SwapComponent({allList, allCurrency}){
     //! dispatch de datos de la lista de currency completas a todos los componeentes
     const dispatch = useDispatch()
@@ -15,8 +17,9 @@ export default function SwapComponent({allList, allCurrency}){
 
     //? pool seleccionado
     const [pool, setPool] = useState({
-        poolName: 'BNC/BTC',
-        assets: ['BNC', 'BTC']
+        poolName: 'BNB/BTC',
+        assets: ['BNB', 'BTC'],
+        poolId: 18
     })
 
     //?estado que maneja la busqueda de currencys
@@ -26,6 +29,9 @@ export default function SwapComponent({allList, allCurrency}){
 
     //? estado para mostrar el popup que muestra los pools
     const [selectPool, setSelectPool] = useState(false)
+
+    //? estado que muestra las graficas
+    const [chartView, setChartView] = useState(false)
 
 
     //* funcion que setea los nuevos cambios de moneda
@@ -56,17 +62,20 @@ export default function SwapComponent({allList, allCurrency}){
 
     
     return(
-        <div className="z-0 mx-auto flex justify-center items-center flex-col md:flex-row w-full w-max-full px-5 container heighSwapComponenet"> 
-            <div className='w-7/12 h-full pt-0 px-5 pb-5 max-h-full hidden md:flex items-center justify-ceneter'>
-                <div className='w-full h-96 bg-white '>
-                </div>
-            </div>
-            <div className='w-full md:w-80 flex flex-col'>
+        <div className="z-0 mx-auto flex justify-center md:justify-around items-center flex-col md:flex-row w-full w-max-full container heighSwapComponenet"> 
+            <ChartComponent pool={pool} chartView={chartView}/>
+            <div className='w-full md:w-80 flex flex-col swapResponsive'>
             
-            <span className='md:cursor-pointer py-4 px-4 bg-fondOne text-white w-10/12 mx-auto md:w-full mb-3 border-2 border-purple-400 rounded-2xl relative md:col-start-7 md:col-end-9' onClick={() => popUpCurrency(!selectPool, '')}>
-                {pool.poolName}
-                <PoolImage pool={pool} />
-            </span>
+            <div className=' w-10/12 md:w-full mx-auto p-2  mb-3 flex justify-around bg-fondOne border-2 border-purple-400 rounded-2xl'>
+                <span className='md:cursor-pointer w-20 py-4 px-2 border-x-2  text-white   relative' onClick={() => popUpCurrency(!selectPool, '')}>
+                    {/* {pool.poolName} */}
+                    <PoolImage pool={pool} />
+                </span>
+                <button className='w-2/12  py-2 my-2 px-4 text-white border-x-2 flex justify-center' onClick={() => setChartView(!chartView)}>
+                    <FontAwesomeIcon icon={faChartLine}/>
+                </button>
+            </div>
+
             <SwapBox selected={pool.assets} handlreSearching={popUpCurrency} pool={list} selectPool={selectPool} searching={searchCurrency} handlreShow={selectNewPool}/>           
             </div>
         </div>

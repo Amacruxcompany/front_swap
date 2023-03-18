@@ -38,7 +38,7 @@ export default  function InputCurrency({poolOption, styleData , handlreSearching
                 </span>
                 <span className={`text-xs`}>{currencyValue}</span>
             </button>
-           <input type='text' value={inputValue} onChange={(e) => handleChange(e)} placeholder={`0.000 ${poolOption}`} className="w-full text-end border-4 border-violet-400  h-16 rounded-lg pr-5"/>
+           <input type='text' value={inputValue} onChange={(e) => handleChange(e)} placeholder={`0.000 ${poolOption}`} className="w-full text-end border-4 border-violet-400  h-12 rounded-lg pr-5"/>
         </div>
     )
 }

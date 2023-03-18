@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { getAllListPool, getAllListImageCurrency } from '@/services/getDataServices'
+import { getAllListPool, getAllListImageCurrency, getAllListName } from '@/services/getDataServices'
 import SwapComponent from '@/components/swapComponent/swapComponenet'
 import { useRouter } from 'next/router'
 export default function Home({data, dataAssets}) {

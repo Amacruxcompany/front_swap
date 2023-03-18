@@ -11,7 +11,7 @@ export default function PoolImage({pool}){
         }
     })
     return(
-        <div className="absolute flex w-12 justify-between top-5 right-4">
+        <div className="absolute flex w-12 justify-between top-4 right-4">
             {listImage}
         </div>
     )
