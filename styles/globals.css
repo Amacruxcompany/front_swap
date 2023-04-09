@@ -92,6 +92,7 @@ a {
   height: 60vh;
   min-height: 450px;
   max-height: 600px;
+  margin-bottom: 3rem;
 }
 
 .containerPersonal{
@@ -143,4 +144,17 @@ a {
     height:250px!important;
     border-radius:20px 20px 0 0!important;
   }
+}
+
+.textTimer{
+  font-size: 11px;
+}
+
+
+/* Estilos de las alertas */
+
+.toastrP{
+  max-width: 500px;
+  right: 20px;
+  top: 85px
 }
