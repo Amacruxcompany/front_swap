@@ -1,4 +1,3 @@
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -9,14 +8,14 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors:{
-        'fondOne': '#2B1A43',
-        'fondTwo': '#3508666',
-        'fondThree': '#1D195A',
-        'intColorOne': '#8BF7D1',
-        'intColorTwo': '#112A51'
+      colors: {
+        fondOne: "#2B1A43",
+        fondTwo: "#3508666",
+        fondThree: "#1D195A",
+        intColorOne: "#8BF7D1",
+        intColorTwo: "#112A51",
       },
     },
   },
   plugins: [],
-}
+};

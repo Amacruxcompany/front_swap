@@ -1,3 +1,4 @@
+"use client";
 import {
   EthereumClient,
   w3mConnectors,
@@ -11,46 +12,39 @@ import {
   bsc,
   fantom,
   gnosis,
-  mainnet,
   optimism,
   polygon,
+  mainnet,
 } from "wagmi/chains";
-import "@/styles/globals.css";
-import NavbarComponenet from "@/app/components/navbar";
+
+const chains = [
+  arbitrum,
+  avalanche,
+  bsc,
+  fantom,
+  gnosis,
+  optimism,
+  polygon,
+  mainnet,
+];
 
 const projectId = "f9a407aed964f6bc3bfce4eabab7c045";
-
-// 2. Configure wagmi client
-const chains = [
-  mainnet,
-  polygon,
-  avalanche,
-  arbitrum,
-  bsc,
-  optimism,
-  gnosis,
-  fantom,
-];
 
 const { provider } = configureChains(chains, [w3mProvider({ projectId })]);
 const wagmiClient = createClient({
   autoConnect: true,
-  connectors: w3mConnectors({ version: 1, chains, projectId }),
+  connectors: w3mConnectors({ projectId, version: 1, chains }),
   provider,
 });
-
-// 3. Configure modal ethereum client
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
-export default function App({ Component, pageProps }) {
+const WagmiProvider = ({ children }) => {
   return (
     <>
-      <WagmiConfig client={wagmiClient}>
-        <NavbarComponenet />
-        <Component {...pageProps} />
-      </WagmiConfig>
-
+      <WagmiConfig client={wagmiClient}>{children}</WagmiConfig>
       <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </>
   );
-}
+};
+
+export default WagmiProvider;
