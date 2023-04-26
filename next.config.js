@@ -16,6 +16,7 @@ const nextConfig = {
     AMAX_API_KEY: "xxxxx",
     API_KEY_MORALIS:
       "4Fc2vaDpUi8wka9mN8YUO6JjP1bJQICUE8q9Pd1UteeOFz3y2OIRlNTGeNqGvkWw",
+    TOTAL_COINS: 600,
   },
   images: {
     remotePatterns: [

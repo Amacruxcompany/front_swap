@@ -13,14 +13,25 @@ async function getData() {
 }
 
 
+async function getCurrencys(){
+  const currencys = await fetch(`${process.env.AMAX_URL}/api/listCurrencys`,{
+    method:"GET", headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+
+  return currencys
+}
+
 export default async function Home() {
   
    const data = await getData()
+   const list = await getCurrencys()
 
   return (
       <main>
         <div className="mx-auto containerPersonal">
-          <SwapComponent pools={data.data}/>
+          <SwapComponent pools={data.data} list={list}/>
         </div>
       </main>
   );

@@ -5,7 +5,7 @@ import { UserGlobalContext } from "@/provider/contextProvider";
 import { useState } from "react";
 
 const InputSwap = ({ pool, selected, read }) => {
-  const { swap, setSwap } = UserGlobalContext();
+  const { swap, setSwap, currencys } = UserGlobalContext();
 
   const [waitData, setWaitData] = useState(false);
 
@@ -25,10 +25,8 @@ const InputSwap = ({ pool, selected, read }) => {
             "Content-Type": "application/json",
           },
         }
-      )
-        .then((res) => res.json())
-        .then((res) => setWaitData(false));
-      console.log(change);
+      ).then((res) => res.json());
+      setWaitData(false);
     }
   };
 
@@ -40,9 +38,17 @@ const InputSwap = ({ pool, selected, read }) => {
     >
       <button className="flex  justify-center items-start left-0 top-2 text-black font-bold text-lg absolute  h-max  select-none">
         <Image
-          src={`https://cryptoicons.org/api/icon/${pool.assets[
-            selected
-          ].toLowerCase()}/200`}
+          src={
+            currencys.length > 0
+              ? currencys.filter(
+                  (data) => data.symbol == pool.assets[selected].toLowerCase()
+                )[0]?.image
+                ? currencys.filter(
+                    (data) => data.symbol == pool.assets[selected].toLowerCase()
+                  )[0]?.image
+                : `/assets/nodata.jpg`
+              : "https://t4.ftcdn.net/jpg/04/72/65/73/360_F_472657366_6kV9ztFQ3OkIuBCkjjL8qPmqnuagktXU.jpg"
+          }
           key={pool.assets[selected]}
           alt={pool.assets[selected]}
           width={20}
@@ -59,8 +65,8 @@ const InputSwap = ({ pool, selected, read }) => {
       ) : (
         <input
           className="w-full text-end border-4 border-violet-400  h-12 rounded-lg pr-5"
-          type="number"
-          onKeyDown={(e) => swapEvent(e.target.value)}
+          type="text"
+          onKeyUp={(e) => swapEvent(e.target.value)}
         />
       )}
     </div>

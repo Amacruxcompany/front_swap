@@ -8,14 +8,15 @@ import { UserGlobalContext } from "@/provider/contextProvider";
 import { useEffect, useState } from "react";
 import SwapBox from "./swapBox";
 
-const SwapComponent = ({ pools }) => {
+const SwapComponent = ({ pools, list }) => {
   //Estados Globales
-  const { setPoolArray, setPopUpPool, popUpPool, pool, setPool } =
+  const { setPoolArray, setPopUpPool, popUpPool, pool, setCurrencys } =
     UserGlobalContext();
 
   useEffect(() => {
     setPoolArray(pools);
-  }, [pools, setPoolArray]);
+    setCurrencys(list);
+  }, [pools, setPoolArray, list, setCurrencys]);
 
   return (
     <div className="z-0 mx-auto flex justify-center md:justify-around items-center flex-col md:flex-row w-full w-max-full container heighSwapComponenet">
