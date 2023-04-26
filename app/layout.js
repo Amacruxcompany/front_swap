@@ -5,8 +5,11 @@ export const metadata = {
 import NavbarComponenet from "@/app/components/navbar";
 import RootProvider from "@/provider/providers";
 import { GlobalContextProvider } from "@/provider/contextProvider";
-import ListOfPool from "./components/poolListPopUp";
+import ListOfPool from "./components/popups/poolListPopUp";
 import "../styles/globals.css";
+import TransactionComponent from "./components/transactionComponenet";
+import ListOfPay from "./components/popups/payOptionsPopUp";
+import WithdrawalPopUp from "./components/popups/withdrawalPopUp";
 
 export default function RootLayout({ children }) {
   return (
@@ -17,6 +20,9 @@ export default function RootLayout({ children }) {
             <NavbarComponenet />
             <ListOfPool />
             {children}
+            <ListOfPay />
+            <WithdrawalPopUp />
+            <TransactionComponent />
           </GlobalContextProvider>
         </RootProvider>
       </body>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { UserGlobalContext } from "@/provider/contextProvider";
-import PoolListComponent from "./poolList";
+import PoolListComponent from "../poolList";
 import Image from "next/image";
 
 export default function ListOfPool() {

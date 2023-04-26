@@ -158,3 +158,30 @@ a {
   right: 20px;
   top: 85px
 }
+.maxNav{
+  max-height: 120px!important;
+}
+
+.optionButton{
+  background-color: rgb(91, 0, 148);
+}
+.hoverPay{
+  transition: all .5s ease;
+}
+.hoverPay:hover, .listCoins:hover{
+  background-color: #f1f1f14d;
+}
+.inputPay{
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  border-radius: 25px;
+  text-align: center;
+}
+.listCoins{
+  padding: 1rem;
+  font-size: 1.2rem;
+  border-radius: 25px;
+  text-align: center;
+  transition: all .4s ease;
+}
