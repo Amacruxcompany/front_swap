@@ -3,16 +3,34 @@
 import { UserGlobalContext } from "@/provider/contextProvider";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useBalance } from "wagmi";
 
 const WithdrawalPopUp = () => {
-  const { currencys } = UserGlobalContext();
+  const { currencys, popUpWithdral, setPopUpWithdral, address } =
+    UserGlobalContext();
+
+  const { data } = useBalance({
+    address: address,
+  });
 
   const [search, setSearch] = useState("");
 
+  const [dataArray, setData] = useState([]);
+
+  useEffect(() => {
+    if (currencys.length <= 0 && typeof currencys != "string") {
+      setData(currencys);
+    }
+  }, [currencys]);
+
+  useEffect(() => {
+    setPopUpWithdral(false);
+  }, [data, setPopUpWithdral]);
+
   const showList =
-    currencys.length <= 0
+    dataArray.length <= 0 && typeof dataArray != "string"
       ? ""
-      : currencys.map((element, ind) => {
+      : dataArray.map((element, ind) => {
           if (search != "") {
             if (element.symbol.toLowerCase().includes(search.toLowerCase())) {
               return (
@@ -50,8 +68,9 @@ const WithdrawalPopUp = () => {
 
   return (
     <div
+      onClick={() => setPopUpWithdral(false)}
       className={`${
-        false ? "heithPopupShow" : "heithPopup"
+        popUpWithdral ? "heithPopupShow" : "heithPopup"
       } z-50   fixed overflow-hidden	 bg-fondOne mt-4 py-4 border-2 rounded-2xl border-white text-center text-white`}
     >
       <h3>Retiro</h3>

@@ -13,10 +13,28 @@ const DepositButtonComponent = ({ options, close }) => {
 
   //? exportaciones funcioones wallets
   const { chain } = useNetwork();
-  const { address, setPopUpPay, setPayArray, popUpPay } = UserGlobalContext();
+  const { address, setPopUpPay, setPayArray } = UserGlobalContext();
+
+  const [prueba, setPrueba] = useState(0);
 
   const myBalance = async () => {
-    if (!chain) {
+    const chainsData = [
+      EvmChain.ETHEREUM,
+      EvmChain.ARBITRUM,
+      EvmChain.AVALANCHE,
+      EvmChain.BSC,
+      EvmChain.BSC_TESTNET,
+      EvmChain.CRONOS,
+      EvmChain.CRONOS_TESTNET,
+      EvmChain.FANTOM,
+      EvmChain.FUJI,
+      EvmChain.GOERLI,
+      EvmChain.MUMBAI,
+      EvmChain.PALM,
+      EvmChain.POLYGON,
+      EvmChain.SEPOLIA,
+    ];
+    if (!chain || !address) {
       return;
     }
 
@@ -28,11 +46,13 @@ const DepositButtonComponent = ({ options, close }) => {
         apiKey: process.env.API_KEY_MORALIS,
       });
     }
-    const chainData = chain.network == "bsc" ? EvmChain.BSC : EvmChain.ETHEREUM;
+    const chainData = chainsData.filter(
+      (data) => data._chainlistData.chainId == chain.id
+    );
 
     const response = await Moralis.EvmApi.token.getWalletTokenBalances({
       address,
-      chain: chainData,
+      chain: chainData[0],
     });
 
     const data = response.toJSON();
@@ -45,8 +65,6 @@ const DepositButtonComponent = ({ options, close }) => {
     setPayArray(data);
     setPopUpPay(true);
   };
-
-  useEffect(() => {}, [chain]);
 
   return (
     <button

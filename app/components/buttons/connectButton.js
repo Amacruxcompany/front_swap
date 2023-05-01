@@ -6,7 +6,8 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { UserGlobalContext } from "@/provider/contextProvider";
 
 const ConnectButton = () => {
-  const { setAddress } = UserGlobalContext();
+  const { setAddress, setPopUpPool, setPopUpPay, setPopUpWithdral } =
+    UserGlobalContext();
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
@@ -19,14 +20,26 @@ const ConnectButton = () => {
   useEffect(() => {
     setData(isConnected);
 
+    setAddress(address);
     if (address) {
       setWallet(address);
-      setAddress(address);
     } else {
       setWallet("");
-      setAddress(address);
     }
-  }, [isConnected, address, setAddress]);
+
+    if (!address) {
+      setPopUpPool(false);
+      setPopUpPay(false);
+      setPopUpWithdral(false);
+    }
+  }, [
+    isConnected,
+    address,
+    setAddress,
+    setPopUpPool,
+    setPopUpPay,
+    setPopUpWithdral,
+  ]);
   return (
     <>
       {data ? (

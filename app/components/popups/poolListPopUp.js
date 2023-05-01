@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { UserGlobalContext } from "@/provider/contextProvider";
 import PoolListComponent from "../poolList";
-import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 export default function ListOfPool() {
   const { popUpPool, setPopUpPool, poolArray, setPool } = UserGlobalContext();
@@ -63,6 +64,12 @@ export default function ListOfPool() {
         popUpPool ? "heithPopupShow" : "heithPopup"
       } z-50 flex justify-start items-center flex-col fixed bg-fondOne mt-4 py-4 border-2 rounded-2xl border-white`}
     >
+      <div
+        className="absolute top-2 right-4 text-white cursor-pointer"
+        onClick={() => setPopUpPool(false)}
+      >
+        <FontAwesomeIcon icon={faClose} />
+      </div>
       <input
         type="text"
         className="w-8/12 border-none rounded-2xl h-2/6 text-center"
