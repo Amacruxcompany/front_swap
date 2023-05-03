@@ -10,6 +10,7 @@ import "../styles/globals.css";
 import TransactionComponent from "./components/transactionComponenet";
 import ListOfPay from "./components/popups/payOptionsPopUp";
 import WithdrawalPopUp from "./components/popups/withdrawalPopUp";
+import ListDataUser from "./components/popups/clientListPopUp";
 
 export default function RootLayout({ children }) {
   return (
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
             <ListOfPool />
             {children}
             <ListOfPay />
+            <ListDataUser />
             <WithdrawalPopUp />
             <TransactionComponent />
           </GlobalContextProvider>

@@ -19,6 +19,10 @@ const GlobalContextObj = createContext({
   address: "",
   popUpPay: false,
   payArray: [],
+  popUpWithdral: true,
+  counter: 0,
+  currencys: [],
+  listUserData: false,
 });
 
 export function GlobalContextProvider({ children }) {
@@ -39,9 +43,13 @@ export function GlobalContextProvider({ children }) {
   const [swap, setSwap] = useState({
     idCurrencySend: "BNB",
     idCurrencyReceive: "BTC",
-    amountSend: 0.0,
-    amountRecibe: 0.0,
-    currencys: [],
+    amountSend: "0.00",
+    amountReceive: "0.00",
+    price: "0",
+    slippage: "0",
+    fee: "0",
+    priceQuote: "0",
+    priceBase: "0",
   });
 
   //direccion de la wallet
@@ -50,12 +58,21 @@ export function GlobalContextProvider({ children }) {
   //condicional para mostrar el popup para pagar
   const [popUpPay, setPopUpPay] = useState(false);
 
+  //condicional para mostrar el popup para pagar
+  const [popUpWithdral, setPopUpWithdral] = useState(false);
+
   // arreglo de monedas disponibles
   const [payArray, setPayArray] = useState([]);
 
   //arreglo de todas las currencys posibles
   const [currencys, setCurrencys] = useState([]);
 
+  //estado del cronometro de peticiones
+
+  const [counter, setCounter] = useState(0);
+
+  //?contexto del popup de la lista del usuario
+  const [listUserData, setListUserData] = useState(false);
   return (
     <GlobalContextObj.Provider
       value={{
@@ -75,6 +92,12 @@ export function GlobalContextProvider({ children }) {
         setPayArray,
         currencys,
         setCurrencys,
+        popUpWithdral,
+        setPopUpWithdral,
+        counter,
+        setCounter,
+        listUserData,
+        setListUserData,
       }}
     >
       {children}

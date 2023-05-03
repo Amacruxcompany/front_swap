@@ -4,6 +4,7 @@ import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
 import InputSwap from "./inputSwap";
 import { UserGlobalContext } from "@/provider/contextProvider";
 import CalculatedBox from "./calculateBox";
+import InputAmount from "./inputAmount";
 export default function SwapBox() {
   const { pool } = UserGlobalContext();
 
@@ -16,7 +17,7 @@ export default function SwapBox() {
           <FontAwesomeIcon icon={faExchangeAlt} className="rotate-90 h-6" />
         </div>
 
-        <InputSwap pool={pool} selected={1} read={true} />
+        <InputAmount pool={pool} selected={1} read={true} />
 
         <CalculatedBox />
 
