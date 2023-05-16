@@ -188,3 +188,6 @@ a {
 .bottomPersonal{
   bottom: 205px;
 }
+.words{
+  word-break: break-word;
+}

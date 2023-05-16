@@ -9,6 +9,16 @@ const InputAmount = ({ pool, selected }) => {
 
   const [amount, setAmount] = useState("0.00");
 
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    if (currencys) {
+      if (currencys.length > 0) {
+        setData(currencys);
+      }
+    }
+  }, [currencys]);
+
   useEffect(() => {
     if (swap) {
       setAmount(swap?.amountReceive);
@@ -26,11 +36,11 @@ const InputAmount = ({ pool, selected }) => {
       <button className="flex  justify-center items-start left-0 top-2 text-black font-bold text-lg absolute  h-max  select-none">
         <Image
           src={
-            currencys.length > 0
-              ? currencys.filter(
+            data.length > 0
+              ? data.filter(
                   (data) => data.symbol == pool.assets[selected].toLowerCase()
                 )[0]?.image
-                ? currencys.filter(
+                ? data.filter(
                     (data) => data.symbol == pool.assets[selected].toLowerCase()
                   )[0]?.image
                 : `/assets/nodata.jpg`

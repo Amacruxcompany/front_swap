@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
 const InputSwap = ({ pool, selected }) => {
-  const { swap, setSwap, currencys } = UserGlobalContext();
+  const { userId, setSwap, currencys } = UserGlobalContext();
 
   const [waitData, setWaitData] = useState(false);
 
@@ -17,18 +17,29 @@ const InputSwap = ({ pool, selected }) => {
 
   const [firstSwap, setFirstSwap] = useState(false);
 
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    if (currencys) {
+      if (currencys.length > 0) {
+        setData(currencys);
+      }
+    }
+  }, [currencys]);
+
   useEffect(() => {
     const repeat = async () => {
       if (!waitData && Number(inputValue) != NaN && Number(inputValue) > 0) {
         setWaitData(true);
 
+        const numberData = inputValue;
         const res = await fetch(
           `${process.env.AMAX_URL}/api/swapcalculated?` +
             new URLSearchParams({
               idCurrencySend: pool.assets[selected],
               idCurrencyReceive:
                 selected == 0 ? pool.assets[1] : pool.assets[0],
-              amountSend: inputEvent,
+              amountSend: numberData,
             }),
           {
             method: "GET",
@@ -46,10 +57,9 @@ const InputSwap = ({ pool, selected }) => {
       setTimeout(() => {
         if (timer > 0 && firstSwap) {
           setTimer(timer - 1);
-          console.log(timer);
         } else {
           repeat();
-          setTimer(10);
+          setTimer(50);
         }
       }, 1000);
     }
@@ -68,19 +78,27 @@ const InputSwap = ({ pool, selected }) => {
       resultStr = "0" + resultStr;
     }
 
-    setInputValue(resultStr);
+    const finalResult = Number(resultStr);
+
+    setInputValue(Number(finalResult));
   };
 
   const swapEvent = async () => {
+    if (userId == 0) {
+      return;
+    }
+
     if (!waitData && Number(inputValue) != NaN && Number(inputValue) > 0) {
       setWaitData(true);
+
+      const numberData = inputValue;
 
       const res = await fetch(
         `${process.env.AMAX_URL}/api/swapcalculated?` +
           new URLSearchParams({
             idCurrencySend: pool.assets[selected],
             idCurrencyReceive: selected == 0 ? pool.assets[1] : pool.assets[0],
-            amountSend: inputEvent,
+            amountSend: numberData,
           }),
         {
           method: "GET",
@@ -105,11 +123,11 @@ const InputSwap = ({ pool, selected }) => {
       <button className="flex  justify-center items-start left-0 top-2 text-black font-bold text-lg absolute  h-max  select-none">
         <Image
           src={
-            currencys.length > 0
-              ? currencys.filter(
+            data.length > 0
+              ? data.filter(
                   (data) => data.symbol == pool.assets[selected].toLowerCase()
                 )[0]?.image
-                ? currencys.filter(
+                ? data.filter(
                     (data) => data.symbol == pool.assets[selected].toLowerCase()
                   )[0]?.image
                 : `/assets/nodata.jpg`
