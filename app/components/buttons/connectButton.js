@@ -6,8 +6,14 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { UserGlobalContext } from "@/provider/contextProvider";
 
 const ConnectButton = () => {
-  const { setAddress, setPopUpPool, setPopUpPay, setPopUpWithdral } =
-    UserGlobalContext();
+  const {
+    setAddress,
+    setPopUpPool,
+    setPopUpPay,
+    setPopUpWithdral,
+    userId,
+    setUserId,
+  } = UserGlobalContext();
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
@@ -18,9 +24,26 @@ const ConnectButton = () => {
   const [wallet, setWallet] = useState("");
 
   useEffect(() => {
-    setData(isConnected);
+    const event = async () => {
+      const res = await fetch(
+        `${process.env.AMAX_URL}/api/userInfo?` +
+          new URLSearchParams({
+            address: address,
+          }),
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      ).then((res) => res.json());
+      console.log(res.data);
+      setUserId(res.data[0].users_id);
+    };
 
+    setData(isConnected);
     setAddress(address);
+
     if (address) {
       setWallet(address);
     } else {
@@ -31,6 +54,11 @@ const ConnectButton = () => {
       setPopUpPool(false);
       setPopUpPay(false);
       setPopUpWithdral(false);
+      setUserId(0);
+    }
+
+    if (address) {
+      event();
     }
   }, [
     isConnected,
@@ -39,6 +67,7 @@ const ConnectButton = () => {
     setPopUpPool,
     setPopUpPay,
     setPopUpWithdral,
+    setUserId,
   ]);
   return (
     <>

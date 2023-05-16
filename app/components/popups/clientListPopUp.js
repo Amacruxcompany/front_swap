@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import { useNetwork } from "wagmi";
+import SwapsList from "../userComponents/swapsList";
 export default function ListDataUser() {
   const { listUserData, setListUserData } = UserGlobalContext();
 
@@ -47,7 +48,7 @@ export default function ListDataUser() {
           </button>
         </div>
 
-        <div>AAAAAAAAA</div>
+        <SwapsList />
       </div>
     </div>
   );

@@ -23,9 +23,12 @@ const GlobalContextObj = createContext({
   counter: 0,
   currencys: [],
   listUserData: false,
+  userId: 0,
 });
 
 export function GlobalContextProvider({ children }) {
+  const [userId, setUserId] = useState(0);
+
   //poolArray de la lista de todos los pools
   const [poolArray, setPoolArray] = useState([]);
 
@@ -98,6 +101,8 @@ export function GlobalContextProvider({ children }) {
         setCounter,
         listUserData,
         setListUserData,
+        userId,
+        setUserId,
       }}
     >
       {children}

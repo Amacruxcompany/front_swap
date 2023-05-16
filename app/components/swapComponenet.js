@@ -21,7 +21,11 @@ const SwapComponent = ({ pools, list }) => {
 
   useEffect(() => {
     setPoolArray(pools);
-    setCurrencys(list);
+    if (list) {
+      setCurrencys(list.data);
+    } else {
+      setCurrencys([]);
+    }
   }, [pools, setPoolArray, list, setCurrencys]);
 
   return (

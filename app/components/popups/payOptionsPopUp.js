@@ -11,7 +11,8 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useBalance } from "wagmi";
 
 export default function ListOfPay() {
-  const { popUpPay, setPopUpPay, payArray, address } = UserGlobalContext();
+  const { popUpPay, setPopUpPay, payArray, address, userId } =
+    UserGlobalContext();
 
   const { chain } = useNetwork();
 
@@ -20,6 +21,8 @@ export default function ListOfPay() {
   const [info, setInfo] = useState({});
   const [inputValue, setInputValue] = useState("0");
   const [formatAmmount, setFormatAmmount] = useState("0");
+  const [complete, setComplete] = useState(false);
+  const [coinId, setCoinId] = useState(0);
 
   //? logica externa para hacer pagos
   const { config } = usePrepareContractWrite({
@@ -35,6 +38,22 @@ export default function ListOfPay() {
   const { write, isLoading, isError, isSuccess } = useContractWrite(config);
   //TODO Contratos
   const contract = async () => {
+    const coin = await fetch(
+      `${process.env.AMAX_URL}/api/coinData?` +
+        new URLSearchParams({
+          coinName: info.symbol,
+        }),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((res) => res.json());
+
+    if (coin[0]) {
+      setCoinId(coin[0].coin_id);
+    }
     write?.();
   };
 
@@ -42,21 +61,58 @@ export default function ListOfPay() {
     address: address,
   });
 
-  useEffect(() => {}, [payArray]);
-
   useEffect(() => {
     const valu = inputValue ? inputValue : "0";
     setFormatAmmount(Web3.utils.toWei(valu, "ether"));
   }, [inputValue]);
 
   useEffect(() => {
-    if (isSuccess && !isLoading && !isError) {
+    if (isSuccess) {
+      setComplete(isSuccess);
+    } else {
+      setComplete(false);
+    }
+  }, [isSuccess]);
+  useEffect(() => {
+    if (complete && !isLoading && !isError && address && inputValue > 0) {
       setPopUpPay(false);
       setInputValue("0");
       setCounter(0);
       setInfo({});
+
+      const event = async () => {
+        const data = Number(inputValue);
+
+        await fetch(
+          `${process.env.AMAX_URL}/api/depositEvent?` +
+            new URLSearchParams({
+              userId,
+              coinId: coinId,
+              amount: data,
+            }),
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => setComplete(false));
+      };
+      event();
     }
-  }, [isSuccess, isError, setPopUpPay, isLoading]);
+  }, [
+    isSuccess,
+    isError,
+    setPopUpPay,
+    isLoading,
+    address,
+    userId,
+    inputValue,
+    complete,
+    coinId,
+  ]);
 
   useEffect(() => {
     setPopUpPay(false);

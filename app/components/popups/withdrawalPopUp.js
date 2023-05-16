@@ -18,8 +18,11 @@ const WithdrawalPopUp = () => {
   const [dataArray, setData] = useState([]);
 
   useEffect(() => {
-    if (currencys.length <= 0 && typeof currencys != "string") {
-      setData(currencys);
+    console.log(currencys);
+    if (currencys) {
+      if (currencys.length <= 0 && typeof currencys != "string") {
+        setData(currencys);
+      }
     }
   }, [currencys]);
 
