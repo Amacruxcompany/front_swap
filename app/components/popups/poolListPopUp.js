@@ -5,9 +5,10 @@ import { UserGlobalContext } from "@/provider/contextProvider";
 import PoolListComponent from "../poolList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
 export default function ListOfPool() {
-  const { popUpPool, setPopUpPool, poolArray, setPool } = UserGlobalContext();
+  const { popUpPool, setPopUpPool, poolArray, setPool, setSwap } = UserGlobalContext();
 
   const [search, setSearch] = useState("");
 
@@ -22,6 +23,17 @@ export default function ListOfPool() {
   const selectPool = (data) => {
     setPool(data);
     setPopUpPool(!popUpPool);
+    setSwap({
+      idCurrencySend: "",
+      idCurrencyReceive: "",
+      amountSend: "0.00",
+      amountReceive: "0.00",
+      price: "0",
+      slippage: "0",
+      fee: "0",
+      priceQuote: "0",
+      priceBase: "0",
+    })
   };
 
   useEffect(() => {
@@ -37,10 +49,16 @@ export default function ListOfPool() {
           <li
             onClick={() => selectPool(data)}
             key={ind}
-            className="md:cursor-pointer snap-always snap-center text-white my-3 bg-list-pool rounded-2xl transition-all duration-500 ease-in p-3 w-10/12 mx-auto relative"
+            className="flex justify-between md:cursor-pointer snap-always snap-center text-white my-3 bg-list-pool rounded-2xl transition-all duration-500 ease-in p-3 w-10/12 mx-auto relative"
           >
             {data.poolName}
-            <PoolListComponent searchPool={data} />
+            <Image
+              src={"/assets/miniLogo.png"}
+              key={ind}
+              alt={data.poolName}
+              width={20}
+              height={20}
+            />
           </li>
         );
       }
@@ -49,10 +67,16 @@ export default function ListOfPool() {
         <li
           onClick={() => selectPool(data)}
           key={ind}
-          className="md:cursor-pointer snap-always snap-center text-white my-3 bg-list-pool rounded-2xl transition-all duration-500 ease-in p-3 w-10/12 mx-auto relative"
+          className="flex justify-between md:cursor-pointer snap-always snap-center text-white my-3 bg-list-pool rounded-2xl transition-all duration-500 ease-in p-3 w-10/12 mx-auto relative"
         >
           {data.poolName}
-          <PoolListComponent searchPool={data} />
+          <Image
+            src={"/assets/miniLogo.png"}
+            key={ind}
+            alt={data.poolName}
+            width={20}
+            height={20}
+          />
         </li>
       );
     }
@@ -60,9 +84,8 @@ export default function ListOfPool() {
 
   return (
     <div
-      className={`${
-        popUpPool ? "heithPopupShow" : "heithPopup"
-      } z-50 flex justify-start items-center flex-col fixed bg-fondOne mt-4 py-4 border-2 rounded-2xl border-white`}
+      className={`${popUpPool ? "heithPopupShow" : "heithPopup"
+        } z-50 flex justify-start items-center flex-col fixed bg-fondOne mt-4 py-4 border-2 rounded-2xl border-white`}
     >
       <div
         className="absolute top-2 right-4 text-white cursor-pointer"
