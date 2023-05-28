@@ -2,13 +2,13 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faWallet,
-  faArrowAltCircleDown,
+  faWallet
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import DepositButtonComponent from "./buttons/depositButton";
 import WithdrawlButtonComponent from "./buttons/withdrawlButton";
 import ListClientButton from "./buttons/listClientButton";
+import LangButtonComponent from "./buttons/langButton";
 const TransactionComponent = () => {
   const [options, setOptions] = useState(false);
   return (
@@ -22,6 +22,7 @@ const TransactionComponent = () => {
       <DepositButtonComponent close={setOptions} options={options} />
       <WithdrawlButtonComponent close={setOptions} options={options} />
       <ListClientButton close={setOptions} options={options} />
+      <LangButtonComponent close={setOptions} options={options} />
     </>
   );
 };

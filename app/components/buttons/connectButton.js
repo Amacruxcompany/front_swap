@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { UserGlobalContext } from "@/provider/contextProvider";
-
+import { toast, Zoom } from "react-toastify";
 const ConnectButton = () => {
   const {
     setAddress,
@@ -13,6 +13,7 @@ const ConnectButton = () => {
     setPopUpWithdral,
     userId,
     setUserId,
+    lang
   } = UserGlobalContext();
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
@@ -27,9 +28,9 @@ const ConnectButton = () => {
     const event = async () => {
       const res = await fetch(
         `${process.env.AMAX_URL}/api/userInfo?` +
-          new URLSearchParams({
-            address: address,
-          }),
+        new URLSearchParams({
+          address: address,
+        }),
         {
           method: "GET",
           headers: {
@@ -37,8 +38,16 @@ const ConnectButton = () => {
           },
         }
       ).then((res) => res.json());
-      console.log(res.data);
-      setUserId(res.data[0].users_id);
+
+      if (res.data) {
+        setUserId(res.data[0].users_id);
+        toast(lang ? 'Exito al iniciar sesion' : 'Successful login', { hideProgressBar: false, autoClose: 5000, type: 'success', position: 'top-right', transition: Zoom })
+
+      } else {
+        toast(lang ? 'Error al conectar wallet' : 'Error connecting wallet', { hideProgressBar: false, autoClose: 5000, type: 'error', position: 'top-right', transition: Zoom })
+
+      }
+
     };
 
     setData(isConnected);
@@ -57,7 +66,7 @@ const ConnectButton = () => {
       setUserId(0);
     }
 
-    if (address) {
+    if (address && userId == 0) {
       event();
     }
   }, [
@@ -68,6 +77,8 @@ const ConnectButton = () => {
     setPopUpPay,
     setPopUpWithdral,
     setUserId,
+    userId,
+    lang
   ]);
   return (
     <>

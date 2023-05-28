@@ -2,12 +2,15 @@
 
 import Image from "next/image";
 import { UserGlobalContext } from "@/provider/contextProvider";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
-const InputSwap = ({ pool, selected }) => {
-  const { userId, setSwap, currencys } = UserGlobalContext();
+import { toast, Zoom } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
+const InputSwap = ({ pool, selected, setTimerExternal }) => {
+  const { userId, setSwap, completeSwap, lang } = UserGlobalContext();
 
   const [waitData, setWaitData] = useState(false);
 
@@ -17,30 +20,30 @@ const InputSwap = ({ pool, selected }) => {
 
   const [firstSwap, setFirstSwap] = useState(false);
 
-  const [data, setData] = useState([]);
+
+
+  const [listUserCoins, setListUserCoins] = useState([]);
+
+  const [maxAmmount, setMaxAmmount] = useState("0.00");
+
+  const [poolSelected, setPoolSelected] = useState("LOADING...");
+
+  const [user, setUser] = useState(0)
 
   useEffect(() => {
-    if (currencys) {
-      if (currencys.length > 0) {
-        setData(currencys);
-      }
-    }
-  }, [currencys]);
+    setUser(userId)
+  }, [userId])
+
+
 
   useEffect(() => {
-    const repeat = async () => {
-      if (!waitData && Number(inputValue) != NaN && Number(inputValue) > 0) {
-        setWaitData(true);
-
-        const numberData = inputValue;
-        const res = await fetch(
-          `${process.env.AMAX_URL}/api/swapcalculated?` +
-            new URLSearchParams({
-              idCurrencySend: pool.assets[selected],
-              idCurrencyReceive:
-                selected == 0 ? pool.assets[1] : pool.assets[0],
-              amountSend: numberData,
-            }),
+    if (userId && pool) {
+      const getData = async () => {
+        const list = await fetch(
+          `${process.env.AMAX_URL}/api/allcoins?` +
+          new URLSearchParams({
+            userId: userId,
+          }),
           {
             method: "GET",
             headers: {
@@ -48,22 +51,32 @@ const InputSwap = ({ pool, selected }) => {
             },
           }
         ).then((res) => res.json());
-        setSwap(res.data);
-        setWaitData(false);
-      }
-    };
 
-    if (firstSwap && !waitData) {
+
+        setListUserCoins(list);
+      };
+
+      getData();
+    }
+  }, [pool, userId, completeSwap]);
+
+  useEffect(() => {
+    if (firstSwap) {
       setTimeout(() => {
         if (timer > 0 && firstSwap) {
           setTimer(timer - 1);
+          setTimerExternal(timer - 1)
         } else {
-          repeat();
-          setTimer(50);
+          setTimer(10);
+          setTimerExternal(10)
+          setFirstSwap(false)
         }
       }, 1000);
+    } else {
+      setTimer(10);
+      setTimerExternal(10)
     }
-  }, [inputValue, timer, waitData, selected, firstSwap, pool, setSwap]);
+  }, [firstSwap, timer, setTimerExternal]);
 
   const inputEvent = (event) => {
     const result = event.target.value.replace(
@@ -71,6 +84,7 @@ const InputSwap = ({ pool, selected }) => {
       ""
     );
     const firstOccuranceIndex = result.search(/\./) + 1;
+
     let resultStr =
       result.substr(0, firstOccuranceIndex) +
       result.slice(firstOccuranceIndex).replace(/\./g, "");
@@ -78,14 +92,25 @@ const InputSwap = ({ pool, selected }) => {
       resultStr = "0" + resultStr;
     }
 
-    const finalResult = Number(resultStr);
+    const finalResult = resultStr;
+    if (finalResult > maxAmmount) {
+      return;
+    }
 
-    setInputValue(Number(finalResult));
+    setInputValue(finalResult);
   };
 
+  const alertsEvent = (data) => {
+    toast(data.message, { hideProgressBar: false, autoClose: 5000, type: data.type, position: 'top-right', transition: Zoom })
+  }
+
   const swapEvent = async () => {
-    if (userId == 0) {
+    if (user == 0) {
       return;
+    }
+
+    if (timer != 10) {
+      return
     }
 
     if (!waitData && Number(inputValue) != NaN && Number(inputValue) > 0) {
@@ -95,11 +120,11 @@ const InputSwap = ({ pool, selected }) => {
 
       const res = await fetch(
         `${process.env.AMAX_URL}/api/swapcalculated?` +
-          new URLSearchParams({
-            idCurrencySend: pool.assets[selected],
-            idCurrencyReceive: selected == 0 ? pool.assets[1] : pool.assets[0],
-            amountSend: numberData,
-          }),
+        new URLSearchParams({
+          idCurrencySend: pool.assets[selected],
+          idCurrencyReceive: selected == 0 ? pool.assets[1] : pool.assets[0],
+          amountSend: numberData,
+        }),
         {
           method: "GET",
           headers: {
@@ -107,38 +132,65 @@ const InputSwap = ({ pool, selected }) => {
           },
         }
       ).then((res) => res.json());
-      console.log(res);
-      setSwap(res.data);
-      setWaitData(false);
-      setFirstSwap(true);
+
+      if (res.data) {
+        setSwap(res.data);
+        setWaitData(false);
+        setFirstSwap(true);
+        alertsEvent({ type: 'success', message: lang ? 'Cambio generado correctamente' : 'Successfully Generated Change' })
+
+
+      } else {
+        setWaitData(false)
+        alertsEvent({ type: 'error', message: res.message })
+      }
+
+
     }
   };
 
+  useEffect(() => {
+    setFirstSwap(false);
+    setTimer(10)
+    setTimerExternal(10)
+    setSwap({
+      idCurrencySend: "",
+      idCurrencyReceive: "",
+      amountSend: "0.00",
+      amountReceive: "0.00",
+      price: "0",
+      slippage: "0",
+      fee: "0",
+      priceQuote: "0",
+      priceBase: "0",
+    })
+    setInputValue("0.00")
+  }, [completeSwap, setSwap, setTimerExternal])
+
+  useEffect(() => {
+    const valueToShow = listUserCoins.filter(
+      (data) => data.coinName == pool.assets[selected]
+    );
+
+    if (valueToShow.length > 0) {
+      setMaxAmmount(valueToShow[0].ammount);
+    } else {
+      setMaxAmmount("0.00");
+    }
+  }, [listUserCoins, pool, selected]);
+
+  useEffect(() => {
+    setPoolSelected(pool.assets[selected]);
+    setInputValue("0");
+  }, [selected, pool]);
   return (
     <div
-      className={`${
-        true ? "opacity-100" : "opacity-0"
-      } h-32 w-10/12 flex justify-around items-center relative transition duration-500 ease-in-out`}
+      className={`${true ? "opacity-100" : "opacity-0"
+        } h-32 w-10/12 flex justify-around items-center relative transition duration-500 ease-in-out`}
     >
-      <button className="flex  justify-center items-start left-0 top-2 text-black font-bold text-lg absolute  h-max  select-none">
-        <Image
-          src={
-            data.length > 0
-              ? data.filter(
-                  (data) => data.symbol == pool.assets[selected].toLowerCase()
-                )[0]?.image
-                ? data.filter(
-                    (data) => data.symbol == pool.assets[selected].toLowerCase()
-                  )[0]?.image
-                : `/assets/nodata.jpg`
-              : "https://t4.ftcdn.net/jpg/04/72/65/73/360_F_472657366_6kV9ztFQ3OkIuBCkjjL8qPmqnuagktXU.jpg"
-          }
-          key={pool.assets[selected]}
-          alt={pool.assets[selected]}
-          width={20}
-          height={20}
-        />
-        <span className={`text-xs pl-2`}>0.00</span>
+      <button className="flex  justify-center items-center left-0 top-2 text-black font-bold text-lg absolute  h-max  select-none">
+        {poolSelected}
+        <span className={`text-xs pl-2`}>{maxAmmount}</span>
       </button>
       <input
         value={inputValue}
@@ -150,7 +202,7 @@ const InputSwap = ({ pool, selected }) => {
         onClick={swapEvent}
         className="w-2/12 border-4 border-purple-600 bg-fondOne text-white h-12 rounded-lg"
       >
-        <FontAwesomeIcon icon={faCalculator} />
+        {timer == 10 ? <FontAwesomeIcon icon={faCalculator} /> : timer + 's'}
       </button>
     </div>
   );

@@ -1,13 +1,8 @@
 "use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowAltCircleDown,
-  faArrowAltCircleUp,
-} from "@fortawesome/free-solid-svg-icons";
-const Moralis = require("moralis").default;
+import { faArrowAltCircleUp } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-const { EvmChain } = require("@moralisweb3/common-evm-utils");
 import { useNetwork } from "wagmi";
 import { UserGlobalContext } from "@/provider/contextProvider";
 
@@ -27,16 +22,15 @@ const WithdrawlButtonComponent = ({ options, close }) => {
     setPopUpWithdral(true);
   };
 
-  useEffect(() => {}, [chain]);
+  useEffect(() => { }, [chain]);
 
   return (
     <button
       onClick={withdrwal}
-      className={`optionButton transition-all	duration-500 bg-fondTwo text-white flex items-center justify-center border-2 border-intColorOne w-12 h-12 cursor-pointer	 rounded-full	fixed ${
-        options ? "bottom-20" : "bottom-4"
-      }  right-4`}
+      className={`optionButton transition-all	duration-500 bg-fondTwo text-white flex items-center justify-center border-2 border-intColorOne w-12 h-12 cursor-pointer	 rounded-full	fixed ${options ? "bottom-20" : "bottom-4"
+        }  right-4`}
     >
-      <FontAwesomeIcon icon={faArrowAltCircleDown} />
+      <FontAwesomeIcon icon={faArrowAltCircleUp} />
     </button>
   );
 };

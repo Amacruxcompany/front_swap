@@ -24,6 +24,9 @@ const GlobalContextObj = createContext({
   currencys: [],
   listUserData: false,
   userId: 0,
+  swapPopup: false,
+  completeSwap: false,
+  lang: true
 });
 
 export function GlobalContextProvider({ children }) {
@@ -35,6 +38,9 @@ export function GlobalContextProvider({ children }) {
   //booleano para mostrar el popupo
   const [popUpPool, setPopUpPool] = useState(false);
 
+  //booleano para mostar el swap
+  const [swapPopup, setSwapPopup] = useState(false);
+
   //objeto que define el pool actual
   const [pool, setPool] = useState({
     poolName: "BNB/BTC",
@@ -44,8 +50,8 @@ export function GlobalContextProvider({ children }) {
 
   //objeto del evento swap
   const [swap, setSwap] = useState({
-    idCurrencySend: "BNB",
-    idCurrencyReceive: "BTC",
+    idCurrencySend: "",
+    idCurrencyReceive: "",
     amountSend: "0.00",
     amountReceive: "0.00",
     price: "0",
@@ -74,8 +80,16 @@ export function GlobalContextProvider({ children }) {
 
   const [counter, setCounter] = useState(0);
 
+
+  //? estado de los swaps
+
+  const [completeSwap, setCompleteSwap] = useState(false)
+
   //?contexto del popup de la lista del usuario
   const [listUserData, setListUserData] = useState(false);
+
+
+  const [lang, setLang] = useState(true)
   return (
     <GlobalContextObj.Provider
       value={{
@@ -102,7 +116,7 @@ export function GlobalContextProvider({ children }) {
         listUserData,
         setListUserData,
         userId,
-        setUserId,
+        setUserId, swapPopup, setSwapPopup, completeSwap, setCompleteSwap, lang, setLang
       }}
     >
       {children}

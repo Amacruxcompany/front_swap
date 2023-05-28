@@ -5,11 +5,15 @@ import { UserGlobalContext } from "@/provider/contextProvider";
 import { useEffect, useState } from "react";
 
 const InputAmount = ({ pool, selected }) => {
-  const { swap, currencys } = UserGlobalContext();
+  const { swap, currencys, userId, completeSwap } = UserGlobalContext();
 
   const [amount, setAmount] = useState("0.00");
 
   const [data, setData] = useState([]);
+
+  const [maxAmmount, setMaxAmmount] = useState("0.00");
+
+  const [listUserCoins, setListUserCoins] = useState([]);
 
   useEffect(() => {
     if (currencys) {
@@ -20,6 +24,29 @@ const InputAmount = ({ pool, selected }) => {
   }, [currencys]);
 
   useEffect(() => {
+    if (userId && pool) {
+      const getData = async () => {
+        const list = await fetch(
+          `${process.env.AMAX_URL}/api/allcoins?` +
+          new URLSearchParams({
+            userId: userId,
+          }),
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        ).then((res) => res.json());
+
+        setListUserCoins(list);
+      };
+
+      getData();
+    }
+  }, [pool, userId, completeSwap]);
+
+  useEffect(() => {
     if (swap) {
       setAmount(swap?.amountReceive);
     } else {
@@ -27,31 +54,31 @@ const InputAmount = ({ pool, selected }) => {
     }
   }, [swap]);
 
+  useEffect(() => {
+    const valueToShow = listUserCoins.filter(
+      (data) => data.coinName == pool.assets[selected]
+    );
+
+    if (valueToShow.length > 0) {
+      setMaxAmmount(valueToShow[0].ammount);
+    } else {
+      setMaxAmmount("0.00");
+    }
+  }, [listUserCoins, pool, selected]);
+
+
+  useEffect(() => {
+    setAmount("0.00")
+  }, [completeSwap])
+
   return (
     <div
-      className={`${
-        true ? "opacity-100" : "opacity-0"
-      } h-32 w-10/12 flex justify-around items-center relative transition duration-500 ease-in-out`}
+      className={`${true ? "opacity-100" : "opacity-0"
+        } h-32 w-10/12 flex justify-around items-center relative transition duration-500 ease-in-out`}
     >
-      <button className="flex  justify-center items-start left-0 top-2 text-black font-bold text-lg absolute  h-max  select-none">
-        <Image
-          src={
-            data.length > 0
-              ? data.filter(
-                  (data) => data.symbol == pool.assets[selected].toLowerCase()
-                )[0]?.image
-                ? data.filter(
-                    (data) => data.symbol == pool.assets[selected].toLowerCase()
-                  )[0]?.image
-                : `/assets/nodata.jpg`
-              : "https://t4.ftcdn.net/jpg/04/72/65/73/360_F_472657366_6kV9ztFQ3OkIuBCkjjL8qPmqnuagktXU.jpg"
-          }
-          key={pool.assets[selected]}
-          alt={pool.assets[selected]}
-          width={20}
-          height={20}
-        />
-        <span className={`text-xs pl-2`}>0.00</span>
+      <button className="flex  justify-center items-center left-0 top-2 text-black font-bold text-lg absolute  h-max  select-none">
+        {pool.assets[selected]}
+        <span className={`text-xs pl-2`}>{maxAmmount}</span>
       </button>
       <input
         value={amount}

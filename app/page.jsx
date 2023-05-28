@@ -1,5 +1,6 @@
 import SwapComponent from "@/app/components/swapComponenet";
 
+
 //* Datos iniciales para las vistas
 async function getData() {
     const pool = await fetch(`${process.env.AMAX_URL}/api/listpool`, {
@@ -13,25 +14,26 @@ async function getData() {
 }
 
 
-async function getCurrencys(){
-  const currencys = await fetch(`${process.env.AMAX_URL}/api/listCurrencys`,{
-    method:"GET", headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => res.json());
+// async function getCurrencys(){
+//   const currencys = await fetch(`${process.env.AMAX_URL}/api/listCurrencys`,{
+//     method:"GET", headers: {
+//       "Content-Type": "application/json",
+//     },
+//   }).then((res) => res.json());
 
-  return currencys
-}
+//   return currencys
+// }
 
 export default async function Home() {
   
    const data = await getData()
-   const list = await getCurrencys()
+  //  const list = await getCurrencys()
 
   return (
       <main>
         <div className="mx-auto containerPersonal">
-          <SwapComponent pools={data.data} list={list}/>
+          <SwapComponent pools={data.data} />
+          <br /><br /><br />
         </div>
       </main>
   );

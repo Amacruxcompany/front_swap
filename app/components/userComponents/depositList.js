@@ -2,12 +2,12 @@
 
 import DepositListComponent from "./listDepositComponent";
 
-const SwapsList = () => {
+const DepositList = () => {
   return (
-    <div className="w-10/12 mx-auto words h-96 overflow-y-scroll px-2">
+    <div className="w-10/12 mx-auto words h-80 overflow-y-scroll px-2">
       <DepositListComponent />
     </div>
   );
 };
 
-export default SwapsList;
+export default DepositList;
