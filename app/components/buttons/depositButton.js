@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleDown } from "@fortawesome/free-solid-svg-icons";
 const Moralis = require("moralis").default;
-import { useEffect, useState } from "react";
+import { useState } from "react";
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
 import { useNetwork } from "wagmi";
 import { UserGlobalContext } from "@/provider/contextProvider";
