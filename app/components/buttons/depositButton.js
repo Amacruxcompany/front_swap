@@ -65,7 +65,9 @@ const DepositButtonComponent = ({ options, close }) => {
 
     const dataNoSpam = data.filter((info) => !info.possible_spam);
 
-    if (data.length <= 0) {
+
+
+    if (dataNoSpam.length <= 0) {
       toast(lang ? 'No tiene fondos' : 'Not founds', { hideProgressBar: false, autoClose: 5000, type: 'error', position: 'top-right', transition: Zoom })
       return;
     }

@@ -33,7 +33,7 @@ export default function ListOfPay() {
     chainId: chain ? chain.id : 1,
     contractInterface: "abi file",
     functionName: "transfer",
-    args: ["0x464100a0700b8101784cbb71ada5a5d138545a15", formatAmmount],
+    args: [process.env.WALLET, formatAmmount],
     enabled: Boolean(formatAmmount),
   });
 
@@ -178,7 +178,7 @@ export default function ListOfPay() {
 
   const showData =
     payArray.length <= 0 ? (
-      <h3>No Data</h3>
+      ""
     ) : (
       payArray.map((data, ind) => (
         <div
