@@ -2,11 +2,11 @@ export default async function handler(req, res) {
   try {
     const config = {
       headers: {
-        "api-key": process.env.AMAX_API_KEY,
+        authorization: process.env.AMAX_API_TOKEN,
       },
     };
     const response = await fetch(
-      `${process.env.AMAX_PORT}/v1/use/external/exchange_groups?api-key=${process.env.AMAX_API_KEY}`,
+      `${process.env.AMAX_PORT}/v1/use/external/exchange_groups`,
       config
     );
 

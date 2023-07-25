@@ -4,7 +4,7 @@ export default async function handler(req, res) {
 
     const config = {
       headers: {
-        "api-key": process.env.AMAX_API_KEY,
+        authorization: process.env.AMAX_API_TOKEN,
       },
     };
     const response = await fetch(
