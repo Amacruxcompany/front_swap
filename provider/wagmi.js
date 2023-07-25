@@ -18,7 +18,7 @@ import {
 } from "wagmi/chains";
 
 const chains = [
-  arbitrum,
+  // arbitrum,
   avalanche,
   bsc,
   fantom,
@@ -27,6 +27,8 @@ const chains = [
   polygon,
   mainnet,
 ];
+
+// console.log(chains);
 
 const projectId = "f9a407aed964f6bc3bfce4eabab7c045";
 
