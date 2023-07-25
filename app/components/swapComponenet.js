@@ -7,7 +7,7 @@ import { UserGlobalContext } from "@/provider/contextProvider";
 import { useEffect, useState } from "react";
 import SwapBox from "./swapBox";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { toast, Zoom } from "react-toastify";
 import Spinner from "./spinnersComponents/spinner";
 import TradingViewWidget from "./graphComponent";
@@ -21,9 +21,9 @@ const SwapComponent = ({ pools, list }) => {
     setPopUpPool(!popUpPool);
   };
 
-  const [init, setInit] = useState(3)
+  const [init, setInit] = useState(3);
 
-  const [showGraph, setShowGraph] = useState(false)
+  const [showGraph, setShowGraph] = useState(false);
 
   useEffect(() => {
     setPoolArray(pools);
@@ -37,16 +37,15 @@ const SwapComponent = ({ pools, list }) => {
   useEffect(() => {
     if (init > 0) {
       setTimeout(() => {
-        setInit(init - 1)
+        setInit(init - 1);
       }, 1000);
     }
-  }, [init])
-
+  }, [init]);
 
   return (
     <>
       <ToastContainer />
-      {init > 0 || !pools ? <div class="background z-50">
+      {/* {init > 0 || !pools ? <div class="background z-50">
         <span></span>
         <span></span>
         <span></span>
@@ -77,10 +76,13 @@ const SwapComponent = ({ pools, list }) => {
         <span></span>
         <span></span>
         <span></span>
-      </div> : ''}
+      </div> : ''} */}
       <div className="z-0 mx-auto flex justify-center md:justify-around items-center flex-col md:flex-row w-full w-max-full container heighSwapComponenet mt-8">
-
-        <div className={`fixed md:static z-40  w-10/12   md:w-7/12  alturaGrafica  md:px-2 ${showGraph ? '' : 'hidden'}`}>
+        <div
+          className={`fixed md:static z-40  w-10/12   md:w-7/12  alturaGrafica  md:px-2 ${
+            showGraph ? "" : "hidden"
+          }`}
+        >
           <TradingViewWidget />
         </div>
         <div className="w-full md:w-5/12 md:w-80 flex flex-col swapResponsive">
@@ -91,7 +93,10 @@ const SwapComponent = ({ pools, list }) => {
             >
               <PoolListComponent searchPool={pool} />
             </span>
-            <button className="w-2/12  py-2 my-2 px-4 text-white border-x-2 flex justify-center" onClick={() => setShowGraph(!showGraph)}>
+            <button
+              className="w-2/12  py-2 my-2 px-4 text-white border-x-2 flex justify-center"
+              onClick={() => setShowGraph(!showGraph)}
+            >
               <FontAwesomeIcon icon={faChartLine} />
             </button>
           </div>
@@ -99,7 +104,6 @@ const SwapComponent = ({ pools, list }) => {
           <SwapBox />
         </div>
       </div>
-
     </>
   );
 };
