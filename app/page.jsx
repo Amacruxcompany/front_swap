@@ -1,6 +1,7 @@
 import SwapComponent from "@/app/components/swapComponenet";
 
 
+
 //* Datos iniciales para las vistas
 async function getData() {
     const pool = await fetch(`${process.env.AMAX_URL}/api/listpool`, {
@@ -9,7 +10,10 @@ async function getData() {
         "Content-Type": "application/json",
       },
     }).then((res) => res.json());
+
+
   
+
     return pool
 }
 
@@ -27,6 +31,7 @@ async function getData() {
 export default async function Home() {
   
    const data = await getData()
+   
   //  const list = await getCurrencys()
 
   return (
