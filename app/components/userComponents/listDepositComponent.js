@@ -12,7 +12,7 @@ const DepositListComponent = () => {
   const [user, setUser] = useState(0);
   const [data, setData] = useState([]);
   const [listData, setDataList] = useState([]);
-  const [waitData, setWaitData] = useState(true)
+  const [waitData, setWaitData] = useState(true);
 
   useEffect(() => {
     if (userId && useId != 0) {
@@ -23,22 +23,21 @@ const DepositListComponent = () => {
   }, [userId]);
 
   useEffect(() => {
-    setWaitData(true)
+    setWaitData(true);
     fetch(
       `${process.env.AMAX_URL}/api/userData/depositList?` +
-      new URLSearchParams({
-        userId: user,
-      })
+        new URLSearchParams({
+          userId: user,
+        })
     )
       .then((res) => res.json())
       .then((res) => setData(res))
-      .then(res => setWaitData(false));
+      .then((res) => setWaitData(false));
   }, [user, listUserData]);
 
   useEffect(() => {
     if (data.length > 0) {
       setDataList(data);
-
     }
   }, [data]);
 
@@ -49,9 +48,9 @@ const DepositListComponent = () => {
   return (
     <div className="border-4 border-indigo-500/75  rounded-md	py-2">
       <div className="grid grid-cols-3 items-center text-center w-10/12 mx-auto text-white">
-        <span>{lang ? 'moneda' : 'currency'}</span>
-        <span>{lang ? 'monto' : 'amount'}</span>
-        <span>{lang ? 'fecha' : 'date'}</span>
+        <span>{lang ? "moneda" : "currency"}</span>
+        <span>{lang ? "monto" : "amount"}</span>
+        <span>{lang ? "fecha" : "date"}</span>
       </div>
       {waitData ? <Spinner /> : list}
     </div>

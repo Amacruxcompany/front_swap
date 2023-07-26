@@ -13,7 +13,7 @@ const ConnectButton = () => {
     setPopUpWithdral,
     userId,
     setUserId,
-    lang
+    lang,
   } = UserGlobalContext();
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
@@ -28,9 +28,9 @@ const ConnectButton = () => {
     const event = async () => {
       const res = await fetch(
         `${process.env.AMAX_URL}/api/userInfo?` +
-        new URLSearchParams({
-          address: address,
-        }),
+          new URLSearchParams({
+            address: address,
+          }),
         {
           method: "GET",
           headers: {
@@ -41,13 +41,22 @@ const ConnectButton = () => {
 
       if (res.data) {
         setUserId(res.data[0].users_id);
-        toast(lang ? 'Exito al iniciar sesion' : 'Successful login', { hideProgressBar: false, autoClose: 5000, type: 'success', position: 'top-right', transition: Zoom })
-
+        toast(lang ? "Exito al iniciar sesion" : "Successful login", {
+          hideProgressBar: false,
+          autoClose: 5000,
+          type: "success",
+          position: "top-right",
+          transition: Zoom,
+        });
       } else {
-        toast(lang ? 'Error al conectar wallet' : 'Error connecting wallet', { hideProgressBar: false, autoClose: 5000, type: 'error', position: 'top-right', transition: Zoom })
-
+        toast(lang ? "Error al conectar wallet" : "Error connecting wallet", {
+          hideProgressBar: false,
+          autoClose: 5000,
+          type: "error",
+          position: "top-right",
+          transition: Zoom,
+        });
       }
-
     };
 
     setData(isConnected);
@@ -78,7 +87,7 @@ const ConnectButton = () => {
     setPopUpWithdral,
     setUserId,
     userId,
-    lang
+    lang,
   ]);
   return (
     <>

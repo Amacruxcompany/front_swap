@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
 import { toast, Zoom } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const InputSwap = ({ pool, selected, setTimerExternal }) => {
   const { userId, setSwap, completeSwap, lang } = UserGlobalContext();
@@ -20,30 +20,26 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
 
   const [firstSwap, setFirstSwap] = useState(false);
 
-
-
   const [listUserCoins, setListUserCoins] = useState([]);
 
   const [maxAmmount, setMaxAmmount] = useState("0.00");
 
   const [poolSelected, setPoolSelected] = useState("LOADING...");
 
-  const [user, setUser] = useState(0)
+  const [user, setUser] = useState(0);
 
   useEffect(() => {
-    setUser(userId)
-  }, [userId])
-
-
+    setUser(userId);
+  }, [userId]);
 
   useEffect(() => {
     if (userId && pool) {
       const getData = async () => {
         const list = await fetch(
           `${process.env.AMAX_URL}/api/allcoins?` +
-          new URLSearchParams({
-            userId: userId,
-          }),
+            new URLSearchParams({
+              userId: userId,
+            }),
           {
             method: "GET",
             headers: {
@@ -51,7 +47,6 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
             },
           }
         ).then((res) => res.json());
-
 
         setListUserCoins(list);
       };
@@ -65,16 +60,16 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
       setTimeout(() => {
         if (timer > 0 && firstSwap) {
           setTimer(timer - 1);
-          setTimerExternal(timer - 1)
+          setTimerExternal(timer - 1);
         } else {
           setTimer(10);
-          setTimerExternal(10)
-          setFirstSwap(false)
+          setTimerExternal(10);
+          setFirstSwap(false);
         }
       }, 1000);
     } else {
       setTimer(10);
-      setTimerExternal(10)
+      setTimerExternal(10);
     }
   }, [firstSwap, timer, setTimerExternal]);
 
@@ -101,8 +96,14 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
   };
 
   const alertsEvent = (data) => {
-    toast(data.message, { hideProgressBar: false, autoClose: 5000, type: data.type, position: 'top-right', transition: Zoom })
-  }
+    toast(data.message, {
+      hideProgressBar: false,
+      autoClose: 5000,
+      type: data.type,
+      position: "top-right",
+      transition: Zoom,
+    });
+  };
 
   const swapEvent = async () => {
     if (user == 0) {
@@ -110,7 +111,7 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
     }
 
     if (timer != 10) {
-      return
+      return;
     }
 
     if (!waitData && Number(inputValue) != NaN && Number(inputValue) > 0) {
@@ -120,11 +121,11 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
 
       const res = await fetch(
         `${process.env.AMAX_URL}/api/swapcalculated?` +
-        new URLSearchParams({
-          idCurrencySend: pool.assets[selected],
-          idCurrencyReceive: selected == 0 ? pool.assets[1] : pool.assets[0],
-          amountSend: numberData,
-        }),
+          new URLSearchParams({
+            idCurrencySend: pool.assets[selected],
+            idCurrencyReceive: selected == 0 ? pool.assets[1] : pool.assets[0],
+            amountSend: numberData,
+          }),
         {
           method: "GET",
           headers: {
@@ -137,22 +138,23 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
         setSwap(res.data);
         setWaitData(false);
         setFirstSwap(true);
-        alertsEvent({ type: 'success', message: lang ? 'Cambio generado correctamente' : 'Successfully Generated Change' })
-
-
+        alertsEvent({
+          type: "success",
+          message: lang
+            ? "Cambio generado correctamente"
+            : "Successfully Generated Change",
+        });
       } else {
-        setWaitData(false)
-        alertsEvent({ type: 'error', message: res.message })
+        setWaitData(false);
+        alertsEvent({ type: "error", message: res.message });
       }
-
-
     }
   };
 
   useEffect(() => {
     setFirstSwap(false);
-    setTimer(10)
-    setTimerExternal(10)
+    setTimer(10);
+    setTimerExternal(10);
     setSwap({
       idCurrencySend: "",
       idCurrencyReceive: "",
@@ -163,9 +165,9 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
       fee: "0",
       priceQuote: "0",
       priceBase: "0",
-    })
-    setInputValue("0.00")
-  }, [completeSwap, setSwap, setTimerExternal])
+    });
+    setInputValue("0.00");
+  }, [completeSwap, setSwap, setTimerExternal]);
 
   useEffect(() => {
     const valueToShow = listUserCoins.filter(
@@ -185,8 +187,9 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
   }, [selected, pool]);
   return (
     <div
-      className={`${true ? "opacity-100" : "opacity-0"
-        } h-32 w-10/12 flex justify-around items-center relative transition duration-500 ease-in-out`}
+      className={`${
+        true ? "opacity-100" : "opacity-0"
+      } h-32 w-10/12 flex justify-around items-center relative transition duration-500 ease-in-out`}
     >
       <button className="flex  justify-center items-center left-0 top-2 text-black font-bold text-lg absolute  h-max  select-none">
         {poolSelected}
@@ -202,7 +205,7 @@ const InputSwap = ({ pool, selected, setTimerExternal }) => {
         onClick={swapEvent}
         className="w-2/12 border-4 border-purple-600 bg-fondOne text-white h-12 rounded-lg"
       >
-        {timer == 10 ? <FontAwesomeIcon icon={faCalculator} /> : timer + 's'}
+        {timer == 10 ? <FontAwesomeIcon icon={faCalculator} /> : timer + "s"}
       </button>
     </div>
   );
