@@ -4,119 +4,56 @@ import { createContext, useContext, useState } from "react";
 
 const GlobalContextObj = createContext({
   poolArray: [],
-  showPopUpPool: false,
-  pool: {
-    poolName: "BNB/BTC",
-    assets: ["BNB", "BTC"],
-    poolId: 18,
-  },
-  swap: {
-    idCurrencySend: "BNB",
-    idCurrencyReceive: "BTC",
-    amountSend: 0.0,
-    amountRecibe: 0.0,
-  },
+  swap: {},
+  group: {},
+  index: 0,
+  modal: { status: false },
+  chain: {},
+  refresh: false,
   address: "",
-  popUpPay: false,
-  payArray: [],
-  popUpWithdral: true,
-  counter: 0,
-  currencys: [],
-  listUserData: false,
-  userId: 0,
-  swapPopup: false,
-  completeSwap: false,
-  lang: true
+  graph: false,
+  realSwap: {},
 });
 
 export function GlobalContextProvider({ children }) {
-  const [userId, setUserId] = useState(0);
-
-  //poolArray de la lista de todos los pools
   const [poolArray, setPoolArray] = useState([]);
-
-  //booleano para mostrar el popupo
-  const [popUpPool, setPopUpPool] = useState(false);
-
-  //booleano para mostar el swap
-  const [swapPopup, setSwapPopup] = useState(false);
-
-  //objeto que define el pool actual
-  const [pool, setPool] = useState({
-    poolName: "BNB/BTC",
-    assets: ["BNB", "BTC"],
-    poolId: 18,
+  const [group, setGroup] = useState({});
+  const [swap, setSwap] = useState({});
+  const [index, setIndex] = useState(0);
+  const [refresh, setRefresh] = useState(false);
+  const [modal, setModal] = useState({
+    status: false,
   });
-
-  //objeto del evento swap
-  const [swap, setSwap] = useState({
-    idCurrencySend: "",
-    idCurrencyReceive: "",
-    amountSend: "0.00",
-    amountReceive: "0.00",
-    price: "0",
-    slippage: "0",
-    fee: "0",
-    priceQuote: "0",
-    priceBase: "0",
-  });
-
-  //direccion de la wallet
   const [address, setAddress] = useState("");
+  const [chain, setChain] = useState({});
 
-  //condicional para mostrar el popup para pagar
-  const [popUpPay, setPopUpPay] = useState(false);
+  const [graph, setGraph] = useState(false);
 
-  //condicional para mostrar el popup para pagar
-  const [popUpWithdral, setPopUpWithdral] = useState(false);
+  const [realSwap, setRealSwap] = useState({});
 
-  // arreglo de monedas disponibles
-  const [payArray, setPayArray] = useState([]);
-
-  //arreglo de todas las currencys posibles
-  const [currencys, setCurrencys] = useState([]);
-
-  //estado del cronometro de peticiones
-
-  const [counter, setCounter] = useState(0);
-
-
-  //? estado de los swaps
-
-  const [completeSwap, setCompleteSwap] = useState(false)
-
-  //?contexto del popup de la lista del usuario
-  const [listUserData, setListUserData] = useState(false);
-
-
-  const [lang, setLang] = useState(true)
   return (
     <GlobalContextObj.Provider
       value={{
         poolArray,
         setPoolArray,
-        popUpPool,
-        setPopUpPool,
-        pool,
-        setPool,
         swap,
         setSwap,
+        group,
+        setGroup,
+        index,
+        setIndex,
+        modal,
+        setModal,
+        chain,
+        setChain,
+        refresh,
+        setRefresh,
         address,
         setAddress,
-        popUpPay,
-        setPopUpPay,
-        payArray,
-        setPayArray,
-        currencys,
-        setCurrencys,
-        popUpWithdral,
-        setPopUpWithdral,
-        counter,
-        setCounter,
-        listUserData,
-        setListUserData,
-        userId,
-        setUserId, swapPopup, setSwapPopup, completeSwap, setCompleteSwap, lang, setLang
+        graph,
+        setGraph,
+        realSwap,
+        setRealSwap,
       }}
     >
       {children}

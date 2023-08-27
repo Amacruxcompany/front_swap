@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+
+.box{
+  background-color: rgba(255, 255, 255);
+  box-shadow: 0px 0px 10px .1px rgba(255, 188, 244, 0.75);
+-webkit-box-shadow:  0px 0px 10px .1px rgba(255, 188, 244, 0.75);
+-moz-box-shadow:  0px 0px 10px .1px rgba(255, 188, 244, 0.75);
+}
+
+select {
+  -moz-appearance:none; /* Firefox */
+  -webkit-appearance:none; /* Safari and Chrome */
+  appearance:none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.modal{
+  position: absolute;
+  position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+margin: auto;
+width: 600px;
+height: 550px;
+max-width: 90%;
+max-height: 90vh;
+z-index: 100;
+}
+
+
+
+.show{
+  transform: scale(0);
+  animation: up .7s ease-in-out;
+  animation-fill-mode: forwards;
+}
+.close{
+  transform: scale(0);
+  animation: down .7s ease-in;
+  animation-fill-mode: forwards;
+}
+@keyframes up {
+  0%{
+    display: block;
+    transform: scale(.2);
+  }
+  50%{
+    transform: scale(1.1);
+  }
+  100%{
+    transform: scale(1);
+  }
+}
+
+@keyframes down {
+  0%{
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(1.1);
+  }
+  100%{
+    display: none;
+    transform: scale(0);
+  }
+}
+
+.hModals{
+  height: 450px;
+  max-height: 450;
+  max-width: 100%;
+}
+
+.hAuto{
+  height: 200px;
+}
