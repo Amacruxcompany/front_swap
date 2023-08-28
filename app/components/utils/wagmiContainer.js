@@ -26,6 +26,14 @@ export const WagmiContainerComponent = ({ pools }) => {
 
   useEffect(() => {
     setPoolArray(pools);
+    document.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key == 123) {
+        return false;
+      }
+    });
   }, [pools, setPoolArray]);
   return (
     <WagmiConfig config={wagmiConfig}>

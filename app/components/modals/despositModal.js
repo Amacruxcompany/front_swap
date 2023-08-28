@@ -12,14 +12,19 @@ const DepositModal = ({ listCoin }) => {
     }
   }, [listCoin]);
 
-  const list = data
-    ? data.map((data, ind) => <InputComponent data={data} key={ind} />)
-    : "No posee Informacion";
+  const list =
+    data && data.length > 0
+      ? data.map((data, ind) => <InputComponent data={data} key={ind} />)
+      : "No posee Informacion";
 
   return (
     <div className="flex ">
       <div className="w-11/12 mx-auto mt-8 hModals overflow-scroll">
-        <ul className="border border-2 border-sweet border-b-transparent  rounded">
+        <ul
+          className={`border border-2 border-sweet ${
+            data && data.length > 0 ? "border-b-transparent" : "h-40"
+          } rounded`}
+        >
           {list}
         </ul>
       </div>

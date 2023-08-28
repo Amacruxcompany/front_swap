@@ -41,7 +41,7 @@ const NavbarComponent = () => {
     let data;
 
     if (type == "Deposito" && modal.status == false) {
-      if (listBalance.length > 0) {
+      if (listBalance && listBalance.length > 0) {
         data = listBalance;
       } else {
         data = await getUserWalletBalance(address, chain.id);
@@ -90,7 +90,7 @@ const NavbarComponent = () => {
       setListBalance(data);
     };
 
-    if (chain && address && listBalance.length <= 0) {
+    if (chain && address && listBalance && listBalance.length <= 0) {
       getBalance();
     }
   }, [chain, address, listBalance]);

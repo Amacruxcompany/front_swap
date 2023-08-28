@@ -41,7 +41,7 @@ export const getUserWalletBalance = async (address, chain) => {
 
     return data.data ? data.data : data.message;
   } catch (_error) {
-    return { data: null };
+    return null;
   }
 };
 
@@ -93,6 +93,6 @@ export const getUserList = async (address) => {
 
     return data.data ? data.data : data.message;
   } catch (_error) {
-    return _error;
+    return null;
   }
 };

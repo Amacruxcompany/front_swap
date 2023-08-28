@@ -12,7 +12,7 @@ const WithdrawlComponent = ({ status }) => {
   useEffect(() => {
     const generateList = async () => {
       const data = await getBalanceDbList(address);
-      if (typeof data == "object") {
+      if (typeof data == "object" && !data.stack) {
         setData(data);
       } else {
         setData(null);
@@ -24,9 +24,10 @@ const WithdrawlComponent = ({ status }) => {
     }
   }, [address, status, data]);
 
-  const list = data
-    ? data.map((data, ind) => <InputWComponent data={data} key={ind} />)
-    : "No posee Informacion";
+  const list =
+    data && data.length > 0
+      ? data.map((data, ind) => <InputWComponent data={data} key={ind} />)
+      : "No posee Informacion";
 
   return (
     <div>
@@ -34,7 +35,7 @@ const WithdrawlComponent = ({ status }) => {
         <div className="w-11/12 mx-auto mt-8 hModals overflow-scroll">
           <ul
             className={`border border-2 border-sweet   rounded ${
-              data ? "border-b-transparent" : "hAuto"
+              data && data.length > 0 ? "border-b-transparent" : "hAuto"
             }`}
           >
             {list}
