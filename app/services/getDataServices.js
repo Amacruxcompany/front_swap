@@ -96,3 +96,29 @@ export const getUserList = async (address) => {
     return null;
   }
 };
+
+export const getUserData = async (address) => {
+  try {
+    const config = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "api-key": process.env.AMAX_CCRPT_APIKEY,
+      },
+      method: "GET",
+    };
+    const response = await fetch(
+      `${process.env.AMAX_PORT}/v1/user_data?` +
+        new URLSearchParams({
+          address: address,
+        }),
+      config
+    );
+
+    const data = await response.json();
+
+    return data.data ? data.data : data.message;
+  } catch (_error) {
+    return null;
+  }
+};

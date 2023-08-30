@@ -1,7 +1,8 @@
 "use client";
 
+import { getUserData } from "@/app/services/getDataServices";
 import { useEffect, useState } from "react";
-import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 
 export default function ButtonWallet() {
@@ -19,6 +20,16 @@ export default function ButtonWallet() {
       connect();
     }
   };
+
+  useEffect(() => {
+    const user = async () => {
+      await getUserData(address);
+    };
+
+    if (address) {
+      user();
+    }
+  }, [address]);
 
   useEffect(() => {
     if (address && isConnected) {
